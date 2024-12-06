@@ -1,39 +1,49 @@
 import os
-from telegram import Bot, ChatAction
-from telegram.error import TelegramError
+import time
+import random
+import argparse
+from telegram import Bot
 from dotenv import load_dotenv
+from pathlib import Path
+from datetime import datetime
 
 load_dotenv()
-token = os.getenv("TELEGRAM_BOT_TOKEN")
 
-if not token:
-    raise ValueError("Токен бота не найден. Проверьте файл .env.")
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
-bot = Bot(token=token)
+bot = Bot(token=TOKEN)
 
-chat_id = bot.get_updates()[-1].message.chat_id 
+chat_id = bot.get_updates()[-1].message.chat_id
 
 
-image_path = "images/spacex_1.jpg"  
+def get_images_from_directory(directory):
+    return [file for file in Path(directory).glob("*") if file.is_file()]
 
-def send_action(action):
-    def decorator(func):
-        def command_function(*args, **kwargs):
-            bot.send_chat_action(chat_id=chat_id, action=action)
-            return func(*args, **kwargs)
-        return command_function
-    return decorator
+def publish_photos(directory, delay):
+    images = get_images_from_directory(directory)
 
-send_upload_photo_action = send_action(ChatAction.UPLOAD_PHOTO)
+    while True:
+        random.shuffle(images)
+        for image in images:
+            try:
+                with open(image, "rb") as photo:
+                    bot.send_photo(chat_id=chat_id, photo=photo, caption="Новое фото!")
+                time.sleep(delay)
+            except Exception as e:
+                print(f"[{datetime.now()}] Ошибка отправки изображения {image}: {e}")
 
-@send_upload_photo_action
-def send_photo_with_action():
-    with open(image_path, "rb") as image_file:
-        bot.send_photo(chat_id=chat_id, photo=image_file)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Скрипт для публикации фото из директории в Telegram канал.")
+    parser.add_argument(
+        "--directory", 
+        type=str, 
+        default="images",
+    )
+    parser.add_argument(
+        "--delay", 
+        type=int, 
+        default=int(os.getenv("PUBLISH_DELAY"))
+    )
+    args = parser.parse_args()
 
-try:
-    send_photo_with_action()
-except TelegramError as e:
-    print(f"Ошибка отправки: {e}")
-except FileNotFoundError:
-    print("Файл с изображением не найден. Проверьте путь.")
+    publish_photos(args.directory, args.delay)
