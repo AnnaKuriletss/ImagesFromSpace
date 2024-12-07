@@ -4,8 +4,6 @@ import requests
 from dotenv import load_dotenv
 from utils import get_file_extension, downloading_images
 
-load_dotenv()
-
 
 def fetch_apod_images(folder_name, count, api_key):
     nasa_url = "https://api.nasa.gov/planetary/apod"
@@ -27,6 +25,8 @@ def fetch_apod_images(folder_name, count, api_key):
 
 
 if __name__ == "__main__":
+    load_dotenv()
+
     parser = argparse.ArgumentParser(description="Загрузка APOD NASA")
     parser.add_argument(
         "--count", type=int, default=5, help="Количество изображений для загрузки"

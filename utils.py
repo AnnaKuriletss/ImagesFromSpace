@@ -2,11 +2,13 @@ import os
 from urllib.parse import urlparse
 import requests
 
+
 def get_file_extension(url):
     parsed_url = urlparse(url)
     filename = os.path.basename(parsed_url.path)
     _, extension = os.path.splitext(filename)
     return extension
+
 
 def downloading_images(url, folder_name, filename):
     folder_name = "images"
@@ -23,4 +25,3 @@ def downloading_images(url, folder_name, filename):
             file.write(response.content)
     except requests.RequestException as e:
         print(f"Ошибка загрузки {url}: {e}")
-

@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from pathlib import Path
 from datetime import datetime
 
-load_dotenv()
 
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
@@ -18,6 +17,7 @@ chat_id = bot.get_updates()[-1].message.chat_id
 
 def get_images_from_directory(directory):
     return [file for file in Path(directory).glob("*") if file.is_file()]
+
 
 def publish_photos(directory, delay):
     images = get_images_from_directory(directory)
@@ -32,18 +32,18 @@ def publish_photos(directory, delay):
             except Exception as e:
                 print(f"[{datetime.now()}] Ошибка отправки изображения {image}: {e}")
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Скрипт для публикации фото из директории в Telegram канал.")
+    load_dotenv()
+    parser = argparse.ArgumentParser(
+        description="Скрипт для публикации фото из директории в Telegram канал."
+    )
     parser.add_argument(
-        "--directory", 
-        type=str, 
+        "--directory",
+        type=str,
         default="images",
     )
-    parser.add_argument(
-        "--delay", 
-        type=int, 
-        default=int(os.getenv("PUBLISH_DELAY"))
-    )
+    parser.add_argument("--delay", type=int, default=int(os.getenv("PUBLISH_DELAY")))
     args = parser.parse_args()
 
     publish_photos(args.directory, args.delay)

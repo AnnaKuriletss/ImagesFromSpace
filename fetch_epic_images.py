@@ -3,16 +3,12 @@ import argparse
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
-from utils import get_file_extension, downloading_images
-
-load_dotenv()
+from utils import downloading_images
 
 
 def fetch_epic_images(folder_name, count, api_key):
     base_url = "https://epic.gsfc.nasa.gov/archive/natural"
     api_url = "https://api.nasa.gov/EPIC/api/natural/images"
-
-    
 
     params = {"api_key": api_key}
     try:
@@ -51,6 +47,8 @@ def fetch_epic_images(folder_name, count, api_key):
 
 
 if __name__ == "__main__":
+    load_dotenv()
+
     parser = argparse.ArgumentParser(description="Загрузка EPIC NASA")
     parser.add_argument(
         "--count", type=int, default=5, help="Количество изображений для загрузки"

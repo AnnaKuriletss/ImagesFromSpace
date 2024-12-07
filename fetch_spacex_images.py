@@ -11,8 +11,6 @@ def fetch_spacex_images(folder_name, launch_id=None):
         if launch_id
         else "https://api.spacexdata.com/v5/launches/latest"
     )
-    print(f"Запрашиваем данные с URL: {spacex_url}")
-
     try:
         response = requests.get(spacex_url)
         response.raise_for_status()
@@ -23,7 +21,6 @@ def fetch_spacex_images(folder_name, launch_id=None):
         if not photo_links:
             print("Нет фото для указанного запуска.")
             return
-
 
         for index, photo_url in enumerate(photo_links):
             filename = f"spacex_{index + 1}{get_file_extension(photo_url)}"
