@@ -17,11 +17,16 @@ def download_image(url, folder_name, filename):
 
     if not get_file_extension(url):
         print(f"Ошибка: у файла {filename} отсутствует расширение. Пропуск загрузки.")
+        return
 
+    response = requests.get(url, timeout=10)
+    response.raise_for_status()
+    with open(file_path, "wb") as file:
+        file.write(response.content)
+
+
+def safe_download_image(url, folder_name, filename):
     try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        with open(file_path, "wb") as file:
-            file.write(response.content)
+        download_image(url, folder_name, filename)
     except requests.RequestException as e:
         print(f"Ошибка загрузки {url}: {e}")

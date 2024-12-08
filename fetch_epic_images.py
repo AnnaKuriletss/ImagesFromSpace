@@ -3,7 +3,7 @@ import argparse
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
-from utils import downloading_images
+from utils import download_image
 
 
 def fetch_epic_images(folder_name, count, api_key):
@@ -39,7 +39,7 @@ def fetch_epic_images(folder_name, count, api_key):
 
         image_url = f"{base_url}/{formatted_date}/png/{image_name}.png"
         filename = f"epic_{image_name}.png"
-        downloading_images(image_url, folder_name, filename)
+        download_image(image_url, folder_name, filename)
 
 
 if __name__ == "__main__":

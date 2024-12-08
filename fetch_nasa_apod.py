@@ -2,7 +2,7 @@ import os
 import argparse
 import requests
 from dotenv import load_dotenv
-from utils import get_file_extension, downloading_images
+from utils import get_file_extension, download_image
 
 
 def fetch_apod_images(folder_name, count, api_key):
@@ -17,7 +17,7 @@ def fetch_apod_images(folder_name, count, api_key):
     for index, image in enumerate(enasa_images_info):
         url = image.get("url")
         filename = f"nasa_apod_{index + 1}{get_file_extension(url)}"
-        downloading_images(url, folder_name, filename)
+        download_image(url, folder_name, filename)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import os
 import argparse
 import requests
-from utils import get_file_extension, downloading_images
+from utils import get_file_extension, download_image
 
 
 def fetch_spacex_images(folder_name, launch_id=None):
@@ -23,7 +23,7 @@ def fetch_spacex_images(folder_name, launch_id=None):
 
     for index, photo_url in enumerate(photo_links):
         filename = f"spacex_{index + 1}{get_file_extension(photo_url)}"
-        downloading_images(photo_url, folder_name, filename)
+        download_image(photo_url, folder_name, filename)
 
 
 if __name__ == "__main__":
