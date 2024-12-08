@@ -8,13 +8,6 @@ from pathlib import Path
 from datetime import datetime
 
 
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-
-bot = Bot(token=TOKEN)
-
-chat_id = bot.get_updates()[-1].message.chat_id
-
-
 def get_images_from_directory(directory):
     return [file for file in Path(directory).glob("*") if file.is_file()]
 
@@ -34,7 +27,14 @@ def publish_photos(directory, delay):
 
 
 if __name__ == "__main__":
+
     load_dotenv()
+
+    TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+
+    bot = Bot(token=TOKEN)
+
+    chat_id = bot.get_updates()[-1].message.chat_id
     parser = argparse.ArgumentParser(
         description="Скрипт для публикации фото из директории в Telegram канал."
     )
