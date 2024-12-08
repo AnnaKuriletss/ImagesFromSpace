@@ -14,12 +14,12 @@ pip install -r requirements.txt
 ```
 3. Создайте файл `.env` для хранения токена бота и настроек:
 ```python
-API_KEY=ваш_api_key
+NASA_API_KEY=ваш_api_key от NASA
 TELEGRAM_BOT_TOKEN=ваш_токен_бота
 CHAT_ID=@ваш_канал
 PUBLISH_DELAY=14400  # Задержка между публикациями (в секундах), по умолчанию 4 часа
 ```
-* `API_KEY` — ваш персональный ключ API, который вы можете получить, зарегистрировавшись на сайте NASA API
+* `NASA_API_KEY` — ваш персональный ключ API, который вы можете получить, зарегистрировавшись на сайте NASA API
 
 * `TELEGRAM_BOT_TOKEN` — токен вашего Telegram-бота, полученный от @BotFather.
 

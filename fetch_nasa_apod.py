@@ -36,8 +36,8 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    api_key = os.getenv("API_KEY")
+    api_key = os.getenv("NASA_API_KEY")
     if not api_key:
-        raise ValueError("API_KEY не найден. Проверьте .env файл.")
+        raise ValueError("NASA_API_KEY не найден. Проверьте .env файл.")
 
     fetch_apod_images(args.folder, args.count, api_key)
