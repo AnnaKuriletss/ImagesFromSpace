@@ -11,39 +11,35 @@ def fetch_epic_images(folder_name, count, api_key):
     api_url = "https://api.nasa.gov/EPIC/api/natural/images"
 
     params = {"api_key": api_key}
-    try:
-        response = requests.get(api_url, params=params)
-        response.raise_for_status()
+    response = requests.get(api_url, params=params)
+    response.raise_for_status()
 
-        images_data = response.json()
+    images_data = response.json()
 
-        if not images_data:
-            print("Нет доступных изображений.")
-            return
+    if not images_data:
+        print("Нет доступных изображений.")
+        return
 
-        selected_images = images_data[:count]
+    selected_images = images_data[:count]
 
-        for image_info in selected_images:
-            image_date = image_info.get("date")
-            image_name = image_info.get("image")
+    for image_info in selected_images:
+        image_date = image_info.get("date")
+        image_name = image_info.get("image")
 
-            if not image_date or not image_name:
-                print("Некорректные данные в ответе API.")
-                continue
+        if not image_date or not image_name:
+            print("Некорректные данные в ответе API.")
+            continue
 
-            try:
-                date_obj = datetime.strptime(image_date, "%Y-%m-%d %H:%M:%S")
-                formatted_date = date_obj.strftime("%Y/%m/%d")
-            except ValueError:
-                print(f"Некорректный формат даты: {image_date}")
-                continue
+        try:
+            date_obj = datetime.strptime(image_date, "%Y-%m-%d %H:%M:%S")
+            formatted_date = date_obj.strftime("%Y/%m/%d")
+        except ValueError:
+            print(f"Некорректный формат даты: {image_date}")
+            continue
 
-            image_url = f"{base_url}/{formatted_date}/png/{image_name}.png"
-            filename = f"epic_{image_name}.png"
-            downloading_images(image_url, folder_name, filename)
-
-    except requests.RequestException as e:
-        print(f"Ошибка загрузки EPIC NASA: {e}")
+        image_url = f"{base_url}/{formatted_date}/png/{image_name}.png"
+        filename = f"epic_{image_name}.png"
+        downloading_images(image_url, folder_name, filename)
 
 
 if __name__ == "__main__":

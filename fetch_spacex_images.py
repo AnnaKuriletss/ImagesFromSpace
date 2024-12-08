@@ -11,25 +11,19 @@ def fetch_spacex_images(folder_name, launch_id=None):
         if launch_id
         else "https://api.spacexdata.com/v5/launches/latest"
     )
-    try:
-        response = requests.get(spacex_url)
-        response.raise_for_status()
-        launch_data = response.json()
+    response = requests.get(spacex_url)
+    response.raise_for_status()
+    launch_data = response.json()
 
-        photo_links = launch_data["links"].get("flickr", {}).get("original", [])
+    photo_links = launch_data["links"].get("flickr", {}).get("original", [])
 
-        if not photo_links:
-            print("Нет фото для указанного запуска.")
-            return
+    if not photo_links:
+        print("Нет фото для указанного запуска.")
+        return
 
-        for index, photo_url in enumerate(photo_links):
-            filename = f"spacex_{index + 1}{get_file_extension(photo_url)}"
-            downloading_images(photo_url, folder_name, filename)
-
-    except requests.RequestException as e:
-        print(f"Ошибка загрузки данных SpaceX: {e}")
-    except Exception as e:
-        print(f"Неожиданная ошибка: {e}")
+    for index, photo_url in enumerate(photo_links):
+        filename = f"spacex_{index + 1}{get_file_extension(photo_url)}"
+        downloading_images(photo_url, folder_name, filename)
 
 
 if __name__ == "__main__":

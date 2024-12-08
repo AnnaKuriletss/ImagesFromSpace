@@ -9,19 +9,15 @@ def fetch_apod_images(folder_name, count, api_key):
     nasa_url = "https://api.nasa.gov/planetary/apod"
 
     params = {"api_key": api_key, "count": count}
-    try:
-        response = requests.get(nasa_url, params=params)
-        response.raise_for_status()
+    response = requests.get(nasa_url, params=params)
+    response.raise_for_status()
 
-        images_data = response.json()
+    images_data = response.json()
 
-        for index, image in enumerate(images_data):
-            url = image.get("url")
-            filename = f"nasa_apod_{index + 1}{get_file_extension(url)}"
-            downloading_images(url, folder_name, filename)
-
-    except requests.RequestException as e:
-        print(f"Ошибка загрузки APOD NASA: {e}")
+    for index, image in enumerate(images_data):
+        url = image.get("url")
+        filename = f"nasa_apod_{index + 1}{get_file_extension(url)}"
+        downloading_images(url, folder_name, filename)
 
 
 if __name__ == "__main__":
