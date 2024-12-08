@@ -10,7 +10,7 @@ def get_file_extension(url):
     return extension
 
 
-def downloading_images(url, folder_name, filename):
+def download_image(url, folder_name, filename):
     folder_name = "images"
     os.makedirs(folder_name, exist_ok=True)
     file_path = os.path.join(folder_name, filename)
