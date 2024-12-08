@@ -12,9 +12,9 @@ def fetch_apod_images(folder_name, count, api_key):
     response = requests.get(nasa_url, params=params)
     response.raise_for_status()
 
-    images_data = response.json()
+    enasa_images_info = response.json()
 
-    for index, image in enumerate(images_data):
+    for index, image in enumerate(enasa_images_info):
         url = image.get("url")
         filename = f"nasa_apod_{index + 1}{get_file_extension(url)}"
         downloading_images(url, folder_name, filename)

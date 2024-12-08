@@ -13,9 +13,9 @@ def fetch_spacex_images(folder_name, launch_id=None):
     )
     response = requests.get(spacex_url)
     response.raise_for_status()
-    launch_data = response.json()
+    launch_record = response.json()
 
-    photo_links = launch_data["links"].get("flickr", {}).get("original", [])
+    photo_links = launch_record["links"].get("flickr", {}).get("original", [])
 
     if not photo_links:
         print("Нет фото для указанного запуска.")

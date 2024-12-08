@@ -14,17 +14,17 @@ def fetch_epic_images(folder_name, count, api_key):
     response = requests.get(api_url, params=params)
     response.raise_for_status()
 
-    images_data = response.json()
+    epic_images_info = response.json()
 
-    if not images_data:
+    if not epic_images_info:
         print("Нет доступных изображений.")
         return
 
-    selected_images = images_data[:count]
+    selected_images = epic_images_info[:count]
 
-    for image_info in selected_images:
-        image_date = image_info.get("date")
-        image_name = image_info.get("image")
+    for epic_image in selected_images:
+        image_date = epic_image.get("date")
+        image_name = epic_image.get("image")
 
         if not image_date or not image_name:
             print("Некорректные данные в ответе API.")
