@@ -21,8 +21,8 @@ def fetch_spacex_images(folder_name, launch_id=None):
         print("Нет фото для указанного запуска.")
         return
 
-    for index, photo_url in enumerate(photo_links):
-        filename = f"spacex_{index + 1}{get_file_extension(photo_url)}"
+    for index, photo_url in enumerate(photo_links, start=0):
+        filename = f"spacex_{index}{get_file_extension(photo_url)}"
         download_image(photo_url, folder_name, filename)
 
 
