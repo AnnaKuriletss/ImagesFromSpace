@@ -2,7 +2,7 @@ import os
 import time
 import random
 import argparse
-from telegram import Bot
+from telegram import Bot, TelegramError
 from dotenv import load_dotenv
 from pathlib import Path
 from datetime import datetime
@@ -22,8 +22,10 @@ def publish_photos(directory, delay):
                 with open(image, "rb") as photo:
                     bot.send_photo(chat_id=chat_id, photo=photo, caption="Новое фото!")
                 time.sleep(delay)
-            except Exception as e:
-                print(f"[{datetime.now()}] Ошибка отправки изображения {image}: {e}")
+            except TelegramError as e:
+                print(
+                    f"[{datetime.now()}] Ошибка при запросе обновлений у Telegram: {e}"
+                )
 
 
 if __name__ == "__main__":
