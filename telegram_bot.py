@@ -32,9 +32,9 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+    token= os.getenv("TELEGRAM_BOT_TOKEN")
 
-    bot = Bot(token=TOKEN)
+    bot = Bot(token=token)
 
     chat_id = bot.get_updates()[-1].message.chat_id
     parser = argparse.ArgumentParser(
