@@ -24,9 +24,3 @@ def download_image(url, folder_name, filename):
     with open(file_path, "wb") as file:
         file.write(response.content)
 
-
-def safe_download_image(url, folder_name, filename):
-    try:
-        download_image(url, folder_name, filename)
-    except requests.RequestException as e:
-        print(f"Ошибка загрузки {url}: {e}")
