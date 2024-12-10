@@ -12,7 +12,7 @@ def get_images_from_directory(directory):
     return [file for file in Path(directory).glob("*") if file.is_file()]
 
 
-def publish_photos(directory, delay):
+def publish_photos(directory, delay, send_photo_action):
     images = get_images_from_directory(directory)
 
     while True:
@@ -20,7 +20,7 @@ def publish_photos(directory, delay):
         for image in images:
             try:
                 with open(image, "rb") as photo:
-                    bot.send_photo(chat_id=chat_id, photo=photo, caption="Новое фото!")
+                    send_photo_action(photo)
                 time.sleep(delay)
             except TelegramError as e:
                 print(
@@ -28,11 +28,11 @@ def publish_photos(directory, delay):
                 )
 
 
-if __name__ == "__main__":
+def main():
 
     load_dotenv()
 
-    token= os.getenv("TELEGRAM_BOT_TOKEN")
+    token = os.getenv("TELEGRAM_BOT_TOKEN")
 
     bot = Bot(token=token)
 
@@ -48,4 +48,12 @@ if __name__ == "__main__":
     parser.add_argument("--delay", type=int, default=int(os.getenv("PUBLISH_DELAY")))
     args = parser.parse_args()
 
-    publish_photos(args.directory, args.delay)
+    send_photo_action = lambda photo: bot.send_photo(
+        chat_id=chat_id, photo=photo, caption="Новое фото!"
+    )
+
+    publish_photos(args.directory, args.delay, send_photo_action)
+
+
+if __name__ == "__main__":
+    main()
