@@ -6,6 +6,7 @@ from telegram import Bot, TelegramError
 from dotenv import load_dotenv
 from pathlib import Path
 from datetime import datetime
+from functools import partial
 
 
 def get_images_from_directory(directory):
@@ -48,9 +49,7 @@ def main():
     parser.add_argument("--delay", type=int, default=int(os.getenv("PUBLISH_DELAY")))
     args = parser.parse_args()
 
-    send_photo_action = lambda photo: bot.send_photo(
-        chat_id=chat_id, photo=photo, caption="Новое фото!"
-    )
+    send_photo_action = partial(bot.send_photo, chat_id=chat_id, caption="Новое фото!")
 
     publish_photos(args.directory, args.delay, send_photo_action)
 
